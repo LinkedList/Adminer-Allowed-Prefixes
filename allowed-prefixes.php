@@ -3,7 +3,7 @@
 /** 
 * Show only tables with certain prefixes
 *
-* @author Martin Macko
+* @author Martin Macko, https://bitbucket.org/linkedlist/
 * @license http://http://opensource.org/licenses/MIT, The MIT License (MIT)
 */
 class AdminerAllowedPrefixes {
