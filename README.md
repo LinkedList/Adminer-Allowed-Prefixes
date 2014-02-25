@@ -16,7 +16,7 @@ new AdminerAllowedPrefixes(
 					"database1" => array("PREFIX1", "PREFIX2")
 				),
 				"sql2.server.com" => array(
-					'database2' => array("PREFIX3", "PREFIX4")
+					"database2" => array("PREFIX3", "PREFIX4")
 				)
 			)
 		),
