@@ -31,19 +31,30 @@ class AdminerAllowedPrefixes {
 			//didn't find record for this server and database - use default function
 			return null;
 		}
-		echo "<p id='tables' onmouseover='menuOver(this, event);' onmouseout='menuOut(this);'>\n";
+		echo "<ul id='tables'>" . script("mixin(qs('#tables'), {onmouseover: menuOver, onmouseout: menuOut});");
 		foreach ($tables as $table => $status) {
+			$name = $this->tableName($status);
 			if($this->strposa($table, $this->prefixes)) {
-				echo '<a href="' . h(ME) . 'select=' . urlencode($table) . '"' . bold($_GET["select"] == $table || $_GET["edit"] == $table) . ">" . lang('select') . "</a> ";
-				$name = Adminer::tableName($status);
+				echo '<li><a href="' . h(ME) . 'select=' . urlencode($table) . '"' . bold($_GET["select"] == $table || $_GET["edit"] == $table, "select") . ">" . lang('select') . "</a> ";
 				echo (support("table") || support("indexes")
-					? '<a href="' . h(ME) . 'table=' . urlencode($table) . '"' . bold(in_array($table, array($_GET["table"], $_GET["create"], $_GET["indexes"], $_GET["foreign"], $_GET["trigger"])), (is_view($status) ? "view" : "")) . " title='" . lang('Show structure') . "'>$name</a>"
+					? '<a href="' . h(ME) . 'table=' . urlencode($table) . '"'
+						. bold(in_array($table, array($_GET["table"], $_GET["create"], $_GET["indexes"], $_GET["foreign"], $_GET["trigger"])), (is_view($status) ? "view" : "structure"))
+						. " title='" . lang('Show structure') . "'>$name</a>"
 					: "<span>$name</span>"
-				) . "<br>\n";	
+				) . "\n";
 			}
 		}
-		//use this instead of the default function
+		echo "</ul>\n";
+		//use this instead of the original function
 		return true;
+	}
+
+	/** Table caption used in navigation and headings
+	* @param array result of SHOW TABLE STATUS
+	* @return string HTML code, "" to ignore table
+	*/
+	function tableName($tableStatus) {
+		return h($tableStatus["Name"]);
 	}
 
 	/** 
