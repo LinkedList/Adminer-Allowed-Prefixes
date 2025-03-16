@@ -23,7 +23,7 @@ class AdminerAllowedPrefixes {
 
 	/** 
 	* Prints table list in menu
-	* @param array result of table_status('', true)
+	* @param array result of Adminer\table_status('', true)
 	* @return null
 	*/
 	function tablesPrint($tables) {
@@ -31,15 +31,15 @@ class AdminerAllowedPrefixes {
 			//didn't find record for this server and database - use default function
 			return null;
 		}
-		echo "<ul id='tables'>" . script("mixin(qs('#tables'), {onmouseover: menuOver, onmouseout: menuOut});");
+		echo "<ul id='tables'>" . Adminer\script("mixin(qs('#tables'), {onmouseover: menuOver, onmouseout: menuOut});");
 		foreach ($tables as $table => $status) {
 			$name = $this->tableName($status);
 			if($this->strposa($table, $this->prefixes)) {
-				echo '<li><a href="' . h(ME) . 'select=' . urlencode($table) . '"' . bold($_GET["select"] == $table || $_GET["edit"] == $table, "select") . ">" . lang('select') . "</a> ";
-				echo (support("table") || support("indexes")
-					? '<a href="' . h(ME) . 'table=' . urlencode($table) . '"'
-						. bold(in_array($table, array($_GET["table"], $_GET["create"], $_GET["indexes"], $_GET["foreign"], $_GET["trigger"])), (is_view($status) ? "view" : "structure"))
-						. " title='" . lang('Show structure') . "'>$name</a>"
+				echo '<li><a href="' . Adminer\h(Adminer\ME) . 'select=' . urlencode($table) . '"' . Adminer\bold($_GET["select"] == $table || $_GET["edit"] == $table, "select") . ">" . Adminer\lang('select') . "</a> ";
+				echo (Adminer\support("table") || Adminer\support("indexes")
+					? '<a href="' . Adminer\h(Adminer\ME) . 'table=' . urlencode($table) . '"'
+						. Adminer\bold(in_array($table, array($_GET["table"], $_GET["create"], $_GET["indexes"], $_GET["foreign"], $_GET["trigger"])), (Adminer\is_view($status) ? "view" : "structure"))
+						. " title='" . Adminer\lang('Show structure') . "'>$name</a>"
 					: "<span>$name</span>"
 				) . "\n";
 			}
@@ -54,7 +54,7 @@ class AdminerAllowedPrefixes {
 	* @return string HTML code, "" to ignore table
 	*/
 	function tableName($tableStatus) {
-		return h($tableStatus["Name"]);
+		return Adminer\h($tableStatus["Name"]);
 	}
 
 	/** 
